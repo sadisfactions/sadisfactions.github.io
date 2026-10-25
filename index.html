@@ -76,6 +76,22 @@ nav a.tg{font-size:13px;color:var(--ink);text-decoration:none;border:1px solid v
 .calc{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:28px;max-width:560px}
 label{display:block;font-size:13px;color:var(--mute);margin:16px 0 6px}
 select,input{width:100%;font:400 16px var(--sans);padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{
+  width:100%;
+  min-height:110px;
+  resize:vertical;
+  font:400 16px/1.5 var(--sans);
+  padding:14px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:var(--bg);
+  color:var(--ink);
+}
+.order-form{margin-top:28px;border-top:1px solid var(--line);padding-top:24px}
+.order-form h3{font-size:28px;margin-bottom:8px}
+.order-form .hint{font-size:13px;color:var(--mute);margin-bottom:16px}
+.order-form .btn{margin-top:20px}
+.order-form .err{font-size:13px;color:var(--acc);margin-top:14px}
 .res{margin:22px 0;font:500 40px var(--serif);color:var(--acc)}
 .res small{display:block;font:300 13px var(--sans);color:var(--mute)}
 .contacts{text-align:center}
@@ -96,12 +112,11 @@ footer{text-align:center;padding:26px 22px calc(30px + env(safe-area-inset-botto
 <div class="scene"><i class="s1"></i><i class="s2"></i><i class="s3"></i><i class="s4"></i><i class="s5"></i><i class="s6"></i></div>
 <div class="in">
 <div class="eyebrow" style="color:#e0c9a8">Кухни и шкафы на заказ</div>
-<h1>Мебель, созданная под ваше пространство</h1>
+<h1>Мебель, созданная специально для вас.</h1>
 <p>Демонстрационный сайт студии мебели на заказ: кухни, гардеробные и шкафы по индивидуальным размерам.</p>
 <div class="row"><a class="btn" href="#calc">Рассчитать стоимость</a><a class="btn ghost" href="#catalog">Смотреть каталог</a></div>
 </div>
-</section>
-
+</section> 
 <section id="catalog">
 <div class="eyebrow rv">Каталог</div>
 <h2 class="rv">Кухни и шкафы</h2>
@@ -165,7 +180,35 @@ footer{text-align:center;padding:26px 22px calc(30px + env(safe-area-inset-botto
 <label for="k">Материал фасадов</label>
 <select id="k"><option value="1">ЛДСП</option><option value="1.35">МДФ в эмали</option><option value="1.7">Натуральный шпон</option></select>
 <div class="res"><small>Условная стоимость (демо)</small><span id="r">—</span></div>
-<span class="btn off" id="send" aria-disabled="true">Отправка заявки не подключена</span>
+
+<form class="order-form" id="order-form"
+      action="https://formsubmit.co/dimon98761@mail.ru"
+      method="POST">
+  <h3>Оставить заявку</h3>
+  <p class="hint">Оставьте контакты — обсудим ваш проект.</p>
+
+  <label for="client-name">Ваше имя</label>
+  <input id="client-name" name="Имя" type="text"
+         placeholder="Как к вам обращаться" required>
+
+  <label for="client-phone">Телефон</label>
+  <input id="client-phone" name="Телефон" type="tel"
+         placeholder="+7 900 000-00-00" required>
+
+  <!-- Данные из калькулятора: заполняются скриптом автоматически -->
+  <input type="hidden" id="order-type" name="Тип мебели" value="">
+  <input type="hidden" id="order-material" name="Материал фасадов" value="">
+  <input type="hidden" id="order-length" name="Длина" value="">
+  <input type="hidden" id="order-price" name="Расчётная стоимость" value="">
+
+  <label for="client-message">Комментарий к заказу</label>
+  <textarea id="client-message" name="Комментарий"
+            placeholder="Размеры, пожелания, вопросы..."></textarea>
+
+  <button class="btn" type="submit">Отправить заявку</button>
+  <p class="err" id="order-note" role="alert" hidden>Укажите длину в калькуляторе выше, чтобы мы увидели расчёт.</p>
+</form>
+
 </div>
 </section>
 
@@ -184,6 +227,31 @@ var els=document.querySelectorAll('.rv');
 if('IntersectionObserver' in window){var o=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.classList.add('on');o.unobserve(x.target)}})},{threshold:.12});els.forEach(function(el){o.observe(el)})}else{els.forEach(function(el){el.classList.add('on')})}
 function calc(){var t=document.getElementById('t'),m=parseFloat(document.getElementById('m').value)||0,k=parseFloat(document.getElementById('k').value);var s=Math.round(parseFloat(t.value)*m*k/1000)*1000;document.getElementById('r').textContent=m>0?'от '+s.toLocaleString('ru-RU')+' ₽':'—'}
 ['t','m','k'].forEach(function(i){document.getElementById(i).addEventListener('input',calc)});calc();
+
+/* Передача данных калькулятора в скрытые поля формы заявки */
+function fillOrder(){
+  var t=document.getElementById('t'),k=document.getElementById('k');
+  var m=parseFloat(document.getElementById('m').value);
+  var price=document.getElementById('r').textContent;
+  document.getElementById('order-type').value=t.options[t.selectedIndex].text;
+  document.getElementById('order-material').value=k.options[k.selectedIndex].text;
+  document.getElementById('order-length').value=m>0?m.toLocaleString('ru-RU')+' м':'';
+  document.getElementById('order-price').value=m>0?price:'';
+}
+['t','m','k'].forEach(function(i){
+  var el=document.getElementById(i);
+  el.addEventListener('input',fillOrder);
+  el.addEventListener('change',fillOrder);
+});
+fillOrder();
+
+/* Перед отправкой: ещё раз пересчитать и проверить, что расчёт есть */
+document.getElementById('order-form').addEventListener('submit',function(e){
+  calc();fillOrder();
+  var mEl=document.getElementById('m'),note=document.getElementById('order-note');
+  if(!(parseFloat(mEl.value)>0)){e.preventDefault();note.hidden=false;mEl.focus();return}
+  note.hidden=true;
+});
 </script>
 </body>
 </html>
