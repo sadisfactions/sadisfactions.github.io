@@ -247,12 +247,62 @@ function fillOrder(){
 fillOrder();
 
 /* Перед отправкой: ещё раз пересчитать и проверить, что расчёт есть */
-document.getElementById('order-form').addEventListener('submit',function(e){
-  calc();fillOrder();
-  var mEl=document.getElementById('m'),note=document.getElementById('order-note');
-  if(!(parseFloat(mEl.value)>0)){e.preventDefault();note.hidden=false;mEl.focus();return}
-  note.hidden=true;
+
+document.getElementById('order-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  calc();
+  fillOrder();
+
+  var form = this;
+  var mEl = document.getElementById('m');
+  var note = document.getElementById('order-note');
+  var button = form.querySelector('button[type="submit"]');
+
+  if (!(parseFloat(mEl.value) > 0)) {
+    note.hidden = false;
+    mEl.focus();
+    return;
+  }
+
+  note.hidden = true;
+  button.disabled = true;
+  button.textContent = 'Отправляем...';
+
+  var data = {
+    name: document.getElementById('client-name').value,
+    phone: document.getElementById('client-phone').value,
+    message: [
+      document.getElementById('client-message').value,
+      'Тип мебели: ' + document.getElementById('order-type').value,
+      'Материал: ' + document.getElementById('order-material').value,
+      'Длина: ' + document.getElementById('order-length').value,
+      'Расчётная стоимость: ' + document.getElementById('order-price').value
+    ].filter(Boolean).join('\n')
+  };
+
+  try {
+    const response = await fetch(
+      'https://atelier-form-notify.krystalshine402.workers.dev/',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }
+    );
+
+    if (!response.ok) {
+      console.error('Telegram notification failed:', response.status);
+    }
+  } catch (error) {
+    console.error('Could not contact Telegram Worker:', error);
+  }
+
+  // Отправляем форму на почту через прежний FormSubmit.
+  // Даже если Telegram временно недоступен, заявка на почту уйдёт.
+  HTMLFormElement.prototype.submit.call(form);
 });
+
 </script>
 </body>
 </html>
