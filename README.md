@@ -1,25 +1,23 @@
-# Atelier Form — Furniture Studio
+# Atelier Form — Студия мебели на заказ
 
-A modern, responsive website concept for a custom furniture studio.
+🌐 **Демо сайта:** https://sadisfactions.github.io/
 
-🌐 **Live Demo:** https://sadisfactions.github.io/
+## О проекте
 
-## About the Project
+Atelier Form — концепт сайта современной мебельной студии, созданный в качестве проекта для портфолио. Сайт сочетает минималистичный дизайн, каталог мебели и интерактивные инструменты для расчёта стоимости и отправки заявок.
 
-Atelier Form is a portfolio project showcasing a premium furniture studio website. It combines a minimalist visual design with interactive features for exploring furniture options and submitting inquiries.
+## Возможности
 
-## Features
+- **Адаптивный дизайн** — поддержка компьютеров и мобильных устройств.
+- **Каталог мебели** — отдельные разделы кухонь и шкафов.
+- **Калькулятор стоимости** — предварительный расчёт стоимости мебели по выбранным параметрам.
+- **Форма заявки** — отправка запросов от потенциальных клиентов.
+- **Уведомления на почту** — получение заявок через FormSubmit.
+- **Уведомления в Telegram** — передача заявок через Cloudflare Worker.
+- **Галерея проектов** — визуальная презентация мебели и интерьеров.
+- **Интерактивные элементы** — раскрывающиеся блоки и навигация по разделам.
 
-- **Responsive Design** — layouts adapted for desktop and mobile devices.
-- **Furniture Catalog** — separate sections for kitchens and wardrobes.
-- **Interactive Price Calculator** — estimates furniture costs based on selected options.
-- **Contact Form** — allows visitors to submit project inquiries.
-- **Email Notifications** — form submissions are forwarded using FormSubmit.
-- **Telegram Notifications** — inquiries are also sent through a Cloudflare Worker.
-- **Project Gallery** — visual presentation of furniture and interior concepts.
-- **Interactive UI** — expandable sections and smooth navigation.
-
-## Technologies
+## Используемые технологии
 
 - HTML5
 - CSS3
@@ -29,16 +27,16 @@ Atelier Form is a portfolio project showcasing a premium furniture studio websit
 - Cloudflare Workers
 - Telegram Bot API
 
-## Purpose
+## Цель проекта
 
-This project demonstrates front-end development, responsive layouts, interactive JavaScript functionality, form handling, and integration with external notification services.
+Продемонстрировать навыки создания адаптивных веб-страниц, разработки интерактивных элементов на JavaScript, работы с формами и интеграции внешних сервисов уведомлений.
 
-## Status
+## Статус
 
-Portfolio / demo project.
+Учебный проект для портфолио.
 
-Atelier Form is a fictional studio concept created for demonstration purposes. It is not a real furniture business.
+Atelier Form — вымышленная концепция мебельной студии, созданная исключительно для демонстрации возможностей сайта.
 
 ---
 
-**Live Website:** https://sadisfactions.github.io/
+**Открыть сайт:** https://sadisfactions.github.io/
